@@ -1,6 +1,6 @@
 # TimeFlow - AI Habit Tracker
 
-TimeFlow is a next-generation AI-powered habit tracker designed with a diverse, glassmorphism UI. It features local AI analysis, a digital twin simulation ("AI Shadow"), and advanced habit tracking capabilities.
+TimeFlow is a next-generation AI-powered habit tracker designed with an immersive, glassmorphism UI. It features local AI analysis, a digital twin simulation ("AI Shadow"), and advanced habit tracking capabilities.
 
 ## Features
 
