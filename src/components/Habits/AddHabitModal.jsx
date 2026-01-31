@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-
 const AddHabitModal = ({ isOpen, onClose, onAdd }) => {
     const [name, setName] = useState('');
     const [category, setCategory] = useState('Personal Growth');
     const [difficulty, setDifficulty] = useState('Medium');
     const [icon, setIcon] = useState('✨');
     const [frequency, setFrequency] = useState('Daily');
-
     if (!isOpen) return null;
-
     const handleSubmit = (e) => {
         e.preventDefault();
         if (name.trim()) {
@@ -21,7 +18,6 @@ const AddHabitModal = ({ isOpen, onClose, onAdd }) => {
             onClose();
         }
     };
-
     return (
         <div style={{
             position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
@@ -57,7 +53,6 @@ const AddHabitModal = ({ isOpen, onClose, onAdd }) => {
                             }}
                         />
                     </div>
-
                     {/* Category Selection */}
                     <div>
                         <label style={{ display: 'block', fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '8px' }}>Category</label>
