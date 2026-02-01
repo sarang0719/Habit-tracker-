@@ -16,12 +16,15 @@ import {
     RefreshCw
 } from 'lucide-react';
 
+import useMobile from '../../hooks/useMobile';
+
 const Dashboard = () => {
     const { habits, addHabit, toggleHabit, deleteHabit, getStats } = useHabits();
     const stats = getStats();
     const [aiMessage, setAiMessage] = useState('');
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const isMobile = useMobile();
 
     useEffect(() => {
         setAiMessage(analyzeHabits(habits));
@@ -48,7 +51,7 @@ const Dashboard = () => {
     const today = new Date().toISOString().split('T')[0];
 
     return (
-        <div style={{ padding: '32px', height: '100vh', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '32px', flex: 1 }}>
+        <div style={{ padding: isMobile ? '16px' : '32px', display: 'flex', flexDirection: 'column', gap: '24px', flex: 1, minHeight: '100%' }}>
 
             <AddHabitModal
                 isOpen={isModalOpen}
@@ -57,10 +60,10 @@ const Dashboard = () => {
             />
 
             {/* 1. Header Section */}
-            <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <header style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'center', gap: isMobile ? '16px' : '0' }}>
                 <div>
-                    <h1 style={{ fontSize: '28px', fontWeight: '700', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        Welcome Back, Champion! <Trophy size={28} color="#F59E0B" />
+                    <h1 style={{ fontSize: isMobile ? '24px' : '28px', fontWeight: '700', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        Welcome Back, Champion! <Trophy size={isMobile ? 24 : 28} color="#F59E0B" />
                     </h1>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <p style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>Let's crush your goals today.</p>
@@ -75,38 +78,40 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                    <div className="glass-panel" style={{ padding: '8px 16px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', width: isMobile ? '100%' : 'auto', justifyContent: isMobile ? 'space-between' : 'flex-start' }}>
+                    <div className="glass-panel" style={{ padding: '8px 12px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
                         <Calendar size={16} color="var(--text-secondary)" />
                         <span style={{ fontSize: '14px' }}>{new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</span>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 12px', background: 'rgba(16, 185, 129, 0.1)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
-                        <div style={{ width: '8px', height: '8px', background: 'var(--accent-success)', borderRadius: '50%', boxShadow: '0 0 8px var(--accent-success)' }}></div>
-                        <span style={{ fontSize: '12px', color: 'var(--accent-success)', fontWeight: '600' }}>AI Active</span>
-                    </div>
+                    {!isMobile && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 12px', background: 'rgba(16, 185, 129, 0.1)', borderRadius: 'var(--radius-sm)', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
+                            <div style={{ width: '8px', height: '8px', background: 'var(--accent-success)', borderRadius: '50%', boxShadow: '0 0 8px var(--accent-success)' }}></div>
+                            <span style={{ fontSize: '12px', color: 'var(--accent-success)', fontWeight: '600' }}>AI Active</span>
+                        </div>
+                    )}
 
-                    <button onClick={() => setIsModalOpen(true)} className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <button onClick={() => setIsModalOpen(true)} className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: isMobile ? 1 : 'initial', justifyContent: 'center' }}>
                         <Plus size={16} /> New Habit
                     </button>
                 </div>
             </header>
 
             {/* 2. Main Dashboard Widgets */}
-            <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px' }}>
+            <section style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)', gap: '24px' }}>
                 {/* Timer Widget */}
-                <div style={{ gridColumn: 'span 1' }}>
+                <div style={{ gridColumn: isMobile ? 'span 1' : 'span 1' }}>
                     <Timer />
                 </div>
 
                 {/* Card 1: Completion Rate */}
-                <div className="glass-panel" style={{ gridColumn: 'span 1', padding: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <div className="glass-panel" style={{ gridColumn: isMobile ? 'span 1' : 'span 1', padding: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                     <h3 style={{ fontSize: '16px', color: 'var(--text-secondary)', marginBottom: '16px', alignSelf: 'flex-start' }}>Daily Success</h3>
                     <CompletionChart percentage={stats.completion} />
                 </div>
 
                 {/* Card 3: Weekly Activity */}
-                <div className="glass-panel" style={{ gridColumn: 'span 2', padding: '24px', display: 'flex', flexDirection: 'column' }}>
+                <div className="glass-panel" style={{ gridColumn: isMobile ? 'span 1' : 'span 2', padding: '24px', display: 'flex', flexDirection: 'column' }}>
                     <h3 style={{ fontSize: '16px', color: 'var(--text-secondary)', marginBottom: '16px' }}>Weekly Progress</h3>
                     <div style={{ flex: 1, width: '100%', minHeight: 0 }}>
                         <WeeklyBarChart />
@@ -115,10 +120,10 @@ const Dashboard = () => {
             </section>
 
             {/* 3. Task Manager, Calendar & AI Coach */}
-            <section style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '24px', flex: 1 }}>
+            <section style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '2fr 1fr 1fr', gap: '24px', flex: 1 }}>
 
                 {/* Left: Task / Habit Manager */}
-                <div className="glass-panel" style={{ padding: '24px', gridColumn: 'span 1' }}>
+                <div className="glass-panel" style={{ padding: '24px', gridColumn: isMobile ? 'span 1' : 'span 1' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                         <h3 style={{ fontSize: '20px', fontWeight: '600' }}>Your Habits</h3>
                         <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{stats.completedCount}/{stats.total} Completed</div>

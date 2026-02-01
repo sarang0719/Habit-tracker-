@@ -16,6 +16,8 @@ import { Menu, Zap } from 'lucide-react'
 
 import ThreeBackground from './components/Background/ThreeBackground';
 
+import BottomNav from './components/Navigation/BottomNav';
+
 const AppContent = () => {
   const { user, loading } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -50,7 +52,7 @@ const AppContent = () => {
   }
 
   return (
-    <div className="app-container" style={{ display: 'flex', width: '100%', height: '100vh', overflow: 'hidden', position: 'relative' }}>
+    <div className="app-container" style={{ display: 'flex', width: '100%', height: '100dvh', overflow: 'hidden', position: 'relative' }}>
       <ThreeBackground />
 
       <Sidebar
@@ -61,38 +63,40 @@ const AppContent = () => {
         onClose={() => setSidebarOpen(false)}
       />
 
-      <main style={{ flex: 1, position: 'relative', zIndex: 1, overflow: 'hidden', background: 'transparent', display: 'flex', flexDirection: 'column' }}>
+      <main style={{
+        flex: 1,
+        position: 'relative',
+        zIndex: 1,
+        overflow: 'hidden',
+        background: 'transparent',
+        display: 'flex',
+        flexDirection: 'column',
+        paddingBottom: isMobile ? '70px' : '0' // Space for BottomNav
+      }}>
+        {/* Mobile Branding Header - simplified */}
         {isMobile && !sidebarOpen && (
           <div style={{
-            padding: '16px',
+            padding: '12px 16px',
             display: 'flex',
             alignItems: 'center',
-            gap: '12px',
-            background: 'rgba(10, 10, 10, 0.4)',
-            backdropFilter: 'blur(10px)',
-            borderBottom: '1px solid var(--border-subtle)',
+            justifyContent: 'center',
+            background: 'transparent',
             zIndex: 20
           }}>
-            <button
-              onClick={() => setSidebarOpen(true)}
-              style={{ background: 'transparent', border: 'none', color: 'white', display: 'flex' }}
-            >
-              <Menu size={24} />
-            </button>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <div style={{
-                width: '24px', height: '24px', borderRadius: '6px',
+                width: '20px', height: '20px', borderRadius: '5px',
                 background: 'var(--gradient-purple)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                 color: 'white'
               }}>
-                <Zap size={14} fill="white" />
+                <Zap size={12} fill="white" />
               </div>
-              <span style={{ fontWeight: '600', fontSize: '16px' }}>HabitAI</span>
+              <span style={{ fontWeight: '600', fontSize: '14px', letterSpacing: '-0.5px' }}>HabitAI</span>
             </div>
           </div>
         )}
 
-        <div style={{ flex: 1, overflowY: 'auto', padding: isMobile ? '16px' : '0' }}>
+        <div style={{ flex: 1, overflowY: 'auto', padding: isMobile ? '0 16px 16px 16px' : '0' }}>
           {activeTab === 'dashboard' && <Dashboard />}
           {activeTab === 'habits' && <HabitsPage />}
           {activeTab === 'analytics' && <AnalyticsPage />}
@@ -102,6 +106,14 @@ const AppContent = () => {
           {activeTab === 'help' && <HelpPage />}
         </div>
       </main>
+
+      {isMobile && (
+        <BottomNav
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          onMenuClick={() => setSidebarOpen(true)}
+        />
+      )}
     </div>
   );
 };

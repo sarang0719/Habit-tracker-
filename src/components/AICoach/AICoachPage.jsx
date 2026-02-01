@@ -3,11 +3,15 @@ import { useHabits } from '../../hooks/useHabits';
 import { getLocalAIResponse } from '../../services/localAIService';
 import { Bot, User, Send } from 'lucide-react';
 
+import useMobile from '../../hooks/useMobile';
+
 const AICoachPage = () => {
     const { habits } = useHabits();
+    const isMobile = useMobile();
     const [messages, setMessages] = useState([
         { id: 1, sender: 'ai', text: "Hello! I'm your private AI Coach. How can I help you crush your habits today?" }
     ]);
+
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef(null);
@@ -47,7 +51,7 @@ const AICoachPage = () => {
     };
 
     return (
-        <div style={{ padding: '32px', height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: isMobile ? '16px' : '32px', height: '100%', display: 'flex', flexDirection: 'column' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
                 <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'var(--accent-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 15px rgba(217, 70, 239, 0.3)' }}>
                     <Bot size={24} color="white" />

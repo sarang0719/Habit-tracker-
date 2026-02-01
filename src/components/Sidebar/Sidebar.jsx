@@ -25,7 +25,7 @@ const Sidebar = ({ activeTab, onTabChange, isMobile, isOpen, onClose }) => {
         top: 0,
         left: 0,
         height: '100%',
-        zIndex: 50,
+        zIndex: 200,
         width: '280px',
         boxShadow: '10px 0 50px rgba(0,0,0,0.5)'
     } : {};
@@ -35,7 +35,7 @@ const Sidebar = ({ activeTab, onTabChange, isMobile, isOpen, onClose }) => {
             {isMobile && isOpen && (
                 <div
                     onClick={onClose}
-                    style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 40, backdropFilter: 'blur(4px)' }}
+                    style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 190, backdropFilter: 'blur(4px)' }}
                 />
             )}
             <aside className="sidebar" style={{

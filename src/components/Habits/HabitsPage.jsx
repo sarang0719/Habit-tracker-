@@ -3,9 +3,12 @@ import { useHabits } from '../../hooks/useHabits';
 import AddHabitModal from './AddHabitModal';
 import { Trash2, Plus, Sparkles, ClipboardList } from 'lucide-react';
 
+import useMobile from '../../hooks/useMobile';
+
 const HabitsPage = () => {
     const { habits, addHabit, toggleHabit, deleteHabit } = useHabits();
     const [isAppModalOpen, setIsAppModalOpen] = useState(false);
+    const isMobile = useMobile();
 
     const handleAddHabit = (habitData) => {
         addHabit(habitData);
@@ -17,7 +20,7 @@ const HabitsPage = () => {
     };
 
     return (
-        <div style={{ padding: '32px', height: '100%', overflowY: 'auto' }}>
+        <div style={{ padding: isMobile ? '16px' : '32px', height: '100%', overflowY: 'auto' }}>
             <AddHabitModal
                 isOpen={isAppModalOpen}
                 onClose={() => setIsAppModalOpen(false)}
